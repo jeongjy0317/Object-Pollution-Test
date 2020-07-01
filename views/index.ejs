@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <h2><strong>Current value</strong></h2>
+    <p><strong>Status</strong> : <span class="status"></span></p>
+    <hr>
+    <h2><strong>Value Input</strong></h2>
+    <p style="margin-bottom:0">Value in RAW</p>
+    <textarea style="padding: 10px; width: 50%;" id="" cols="30" rows="10" class="JSONP0" placeholder="Type an value to send"></textarea>
+    <button style="padding: 10px; width: 50%; text-align: center; cursor: pointer;" onclick="sendData();">Send</button>
+    <hr>
+    <script>
+      function sendData(){
+        var JSONP0 = $(".JSONP0").val();
+        if(JSONP0 == ""){ alert("Data is blank"); return; } else{ var finalData = JSONP0; }
+        $.ajax({
+          method: "POST",
+          contentType : "application/json; charset=utf-8",
+          url: "./",
+          data: JSONP0
+        })
+        .done(function(msg) {
+          console.info("Data recieved : " + msg);
+          $(".status").text(msg);
+        })
+        .fail(function() {
+          console.error("Operation failed");
+        });
+      }
+    </script>
+  </body>
+</html>
