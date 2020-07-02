@@ -7,17 +7,16 @@
   <body>
     <h1><%= title %></h1>
     <h2><strong>Current value</strong></h2>
-    <p><strong>Status</strong> : <span class="status"></span></p>
+    <p><strong>Object 1 </strong> : <span class="obj1stat">None</span><br><strong>Object 2 </strong> : <span class="obj2stat">None</span></p>
     <hr>
     <h2><strong>Value Input</strong></h2>
-    <p style="margin-bottom:0">Value in RAW</p>
     <textarea style="padding: 10px; width: 50%;" id="" cols="30" rows="10" class="JSONP0" placeholder="Type an value to send"></textarea>
     <button style="padding: 10px; width: 50%; text-align: center; cursor: pointer;" onclick="sendData();">Send</button>
     <hr>
     <script>
-      function sendData(){
+      function sendData(ignore){
         var JSONP0 = $(".JSONP0").val();
-        if(JSONP0 == ""){ alert("Data is blank"); return; } else{ var finalData = JSONP0; }
+        if(!ignore){ if(JSONP0 == ""){ alert("Data is blank"); return; } else{ var finalData = JSONP0; } }
         $.ajax({
           method: "POST",
           contentType : "application/json; charset=utf-8",
@@ -25,8 +24,10 @@
           data: JSONP0
         })
         .done(function(msg) {
+          msg = JSON.parse(msg);
           console.info("Data recieved : " + msg);
-          $(".status").text(msg);
+          $(".obj1stat").text(msg[0]);
+          $(".obj2stat").text(msg[1]);
         })
         .fail(function() {
           console.error("Operation failed");

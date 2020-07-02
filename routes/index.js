@@ -18,16 +18,14 @@ const merge = (a, b) =>{
 }
 const clone = (obj) => { return merge({}, obj); }
 
-/* GET home page. */
 app.get('/', function(req, res) {
   res.render('index', { title: 'Object Pollution Test' })
 });
 
 app.post('/', (req, res) => {
-  console.log(req.body);
   const obj = clone(req.body);
   const r = {};
-  res.send(r.status ? r.status: 'Normal');
+  res.send(JSON.stringify([obj.status ? obj.status: 'Normal', r.status ? r.status: 'Normal']));
 })
 
 app.listen(port, () => console.log(`Opening server : ${port}`))
